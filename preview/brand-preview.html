@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DesoChat Brand Preview</title>
+  <style>
+    :root {
+      --blue: #2F6BFF;
+      --aqua: #09D3E3;
+      --navy: #0B1020;
+      --graphite: #1C1F26;
+      --slate: #2A2F3A;
+      --silver: #9AA3B2;
+      --lime: #A6FF4D;
+    }
+    html, body { margin: 0; background: var(--navy); color: #E6ECFF; font: 16px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 32px; }
+    h1 { font-size: 28px; margin-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; align-items: center; }
+    .card { background: var(--graphite); border-radius: 12px; padding: 16px; }
+    .swatch { height: 64px; border-radius: 8px; margin-bottom: 8px; }
+    .row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+    .sizes img { background: var(--navy); border-radius: 16px; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--slate); padding: 8px 12px; border-radius: 999px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; color: var(--silver); }
+    figure { margin: 0; }
+    figcaption { font-size: 12px; color: var(--silver); margin-top: 8px; }
+    .light { background: white; color: #0B1020; }
+    .light .card { background: #f2f5ff; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>DesoChat Brand Preview</h1>
+    <p class="mono">Palette: Blue <span style="color: var(--blue)">#2F6BFF</span>, Aqua <span style="color: var(--aqua)">#09D3E3</span>, Navy <span style="color: var(--navy)">#0B1020</span>, Lime <span style="color: var(--lime)">#A6FF4D</span></p>
+
+    <div class="grid" style="margin-top:24px">
+      <div class="card" style="grid-column: span 6; text-align:center">
+        <figure>
+          <img src="../assets/desochat-lockup.svg" alt="DesoChat lockup" style="width: 100%; max-width: 520px" />
+          <figcaption>Lockup (icon + wordmark)</figcaption>
+        </figure>
+      </div>
+      <div class="card" style="grid-column: span 3; text-align:center">
+        <figure>
+          <img src="../assets/desochat-icon.svg" alt="DesoChat icon stroke" style="width: 100%; max-width: 220px" />
+          <figcaption>Primary icon (stroke)</figcaption>
+        </figure>
+      </div>
+      <div class="card" style="grid-column: span 3; text-align:center">
+        <figure>
+          <img src="../assets/desochat-icon-filled.svg" alt="DesoChat icon filled" style="width: 100%; max-width: 220px" />
+          <figcaption>Tiny-size icon (filled)</figcaption>
+        </figure>
+      </div>
+      <div class="card" style="grid-column: span 6; text-align:center">
+        <figure>
+          <img src="../assets/desochat-icon-deso-inspired.svg" alt="DesoChat icon (DeSo-inspired)" style="width: 100%; max-width: 420px" />
+          <figcaption>DeSo-inspired icon variant (hex frame + D monogram + secure chat)</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px">Sizes</h2>
+    <div class="card sizes">
+      <div class="row">
+        <img src="../assets/desochat-icon-filled.svg" alt="16px" width="16" height="16" />
+        <img src="../assets/desochat-icon-filled.svg" alt="32px" width="32" height="32" />
+        <img src="../assets/desochat-icon.svg" alt="64px" width="64" height="64" />
+        <img src="../assets/desochat-icon.svg" alt="96px" width="96" height="96" />
+        <img src="../assets/desochat-icon.svg" alt="128px" width="128" height="128" />
+        <img src="../assets/desochat-icon.svg" alt="192px" width="192" height="192" />
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px">Light Mode Check</h2>
+    <div class="card light">
+      <div class="row">
+        <img src="../assets/desochat-icon-filled.svg" alt="32px" width="32" height="32" style="background:white; padding: 8px; border-radius: 8px;" />
+        <img src="../assets/desochat-icon.svg" alt="96px" width="96" height="96" style="background:white; padding: 8px; border-radius: 12px;" />
+      </div>
+    </div>
+
+    <h2 style="margin-top:32px">Badges / Verified</h2>
+    <div class="card">
+      <div class="row">
+        <span class="badge"><span style="width:10px;height:10px;background:var(--lime);border-radius:50%"></span>Verified</span>
+        <span class="badge"><span style="width:10px;height:10px;background:var(--aqua);border-radius:50%"></span>E2E</span>
+        <span class="badge"><span style="width:10px;height:10px;background:var(--blue);border-radius:50%"></span>Signed</span>
+      </div>
+    </div>
+
+    <p class="mono" style="margin-top:24px">Tip: At 16–24px use the filled icon for better legibility. For stroke scaling, keep stroke ≈ size × 0.073.</p>
+  </div>
+</body>
+</html>

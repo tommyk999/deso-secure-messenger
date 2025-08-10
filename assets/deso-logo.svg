@@ -1,0 +1,13 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder for the official DeSo logo. Replace this file with the official deso-logo.svg from DeSo's brand assets. -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2F6BFF"/>
+      <stop offset="1" stop-color="#09D3E3"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="26" fill="#0B1020"/>
+  <!-- Simplified "D" monogram as a stand-in for the official DeSo logo -->
+  <path d="M72 64h48c44 0 80 26 80 64s-36 64-80 64H72V64z" fill="none" stroke="url(#g)" stroke-width="20" stroke-linejoin="round"/>
+</svg>
+

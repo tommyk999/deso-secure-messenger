@@ -1,0 +1,15 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background for preview; remove if you need transparent -->
+  <rect width="256" height="256" rx="26" fill="#0B1020"/>
+  <!-- Chat bubble -->
+  <path d="M48 76c0-15.464 12.536-28 28-28h104c15.464 0 28 12.536 28 28v52c0 15.464-12.536 28-28 28h-66l-34 24v-24h-4c-15.464 0-28-12.536-28-28V76z"
+        fill="none" stroke="#2F6BFF" stroke-width="12" stroke-linejoin="round"/>
+  <!-- Shield cutout (negative shape suggestion via dark fill); for pure cutout, use masks -->
+  <path d="M128 88l28 12v20c0 22.091-12.536 33.182-28 40-15.464-6.818-28-17.909-28-40V100l28-12z"
+        fill="#0B1020" stroke="#09D3E3" stroke-width="8" stroke-linejoin="round"/>
+  <!-- Node motif -->
+  <circle cx="78" cy="92" r="6" fill="#09D3E3"/>
+  <circle cx="178" cy="92" r="6" fill="#09D3E3"/>
+  <path d="M84 92h88" stroke="#09D3E3" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+</svg>
+

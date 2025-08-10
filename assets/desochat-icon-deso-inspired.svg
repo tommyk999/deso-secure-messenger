@@ -1,0 +1,20 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background (dark preview); remove for transparent use -->
+  <rect width="256" height="256" rx="26" fill="#0B1020"/>
+
+  <!-- Hex frame (DeSo-inspired, not a copy) -->
+  <path d="M128 30l74 42v84l-74 42-74-42V72l74-42z"
+        fill="none" stroke="#2F6BFF" stroke-width="10" stroke-linejoin="round"/>
+
+  <!-- D-shaped monogram with chat bubble counter -->
+  <!-- Outer D stroke -->
+  <path d="M84 80h36c36 0 64 20 64 48s-28 48-64 48H84V80z"
+        fill="none" stroke="#09D3E3" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Inner chat bubble as the D counter (cutout look via bg fill) -->
+  <path d="M124 108c0-10 8-18 18-18h26c10 0 18 8 18 18v18c0 10-8 18-18 18h-17l-9 7v-7h-0.8c-10 0-18-8-18-18v-18z"
+        fill="#0B1020" stroke="#2F6BFF" stroke-width="6" stroke-linejoin="round"/>
+
+  <!-- Keyhole mark for secure state -->
+  <path d="M150 124a8 8 0 1 1 8 8v8h-8v-8a8 8 0 0 1-0-8z" fill="#A6FF4D"/>
+</svg>
+

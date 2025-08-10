@@ -1,0 +1,19 @@
+<svg width="640" height="160" viewBox="0 0 640 160" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="160" fill="#0B1020"/>
+  <!-- Icon (scaled down) -->
+  <g transform="translate(16,16) scale(0.5)">
+    <path d="M48 76c0-15.464 12.536-28 28-28h104c15.464 0 28 12.536 28 28v52c0 15.464-12.536 28-28 28h-66l-34 24v-24h-4c-15.464 0-28-12.536-28-28V76z"
+          fill="none" stroke="#2F6BFF" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M128 88l28 12v20c0 22.091-12.536 33.182-28 40-15.464-6.818-28-17.909-28-40V100l28-12z"
+          fill="#0B1020" stroke="#09D3E3" stroke-width="8" stroke-linejoin="round"/>
+    <circle cx="78" cy="92" r="6" fill="#09D3E3"/>
+    <circle cx="178" cy="92" r="6" fill="#09D3E3"/>
+    <path d="M84 92h88" stroke="#09D3E3" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  </g>
+  <!-- Wordmark using generic fonts; replace with brand font and outlines for production -->
+  <text x="160" y="104" font-family="'Space Grotesk', Sora, Outfit, Inter, system-ui, -apple-system, 'Segoe UI', Roboto" font-size="56" font-weight="700" fill="#E6ECFF" letter-spacing="0.5">
+    Deso<tspan fill="#2F6BFF">Chat</tspan>
+  </text>
+  <circle cx="600" cy="48" r="6" fill="#A6FF4D"/>
+</svg>
+

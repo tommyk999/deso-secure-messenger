@@ -1,0 +1,26 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="256" height="256" rx="26" fill="#0B1020"/>
+
+  <!-- Import/reference note: replace deso-logo.svg with the official vector when available -->
+  <defs>
+    <clipPath id="logoClip">
+      <!-- Use the placeholder deso-logo path as a clipping mask -->
+      <path d="M72 64h48c44 0 80 26 80 64s-36 64-80 64H72V64z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Base logo (placeholder path, stroked) -->
+  <path d="M72 64h48c44 0 80 26 80 64s-36 64-80 64H72V64z" fill="none" stroke="#2F6BFF" stroke-width="16" stroke-linejoin="round"/>
+
+  <!-- Chat bubble placed inside the logo shape via clip -->
+  <g clip-path="url(#logoClip)">
+    <path d="M98 96h74c12 0 22 10 22 22v22c0 12-10 22-22 22h-42l-18 14v-14h-14c-12 0-22-10-22-22v-22c0-12 10-22 22-22z" fill="#2F6BFF"/>
+    <!-- Keyhole for secure look -->
+    <path d="M146 126a9 9 0 1 1 9 9v10h-10v-10a9 9 0 0 1 1-9z" fill="#A6FF4D"/>
+  </g>
+
+  <!-- Outline accent of the chat bubble for contrast on dark -->
+  <path d="M98 96h74c12 0 22 10 22 22v22c0 12-10 22-22 22h-42l-18 14v-14h-14c-12 0-22-10-22-22v-22c0-12 10-22 22-22z" fill="none" stroke="#09D3E3" stroke-width="4" stroke-linejoin="round"/>
+</svg>
+
