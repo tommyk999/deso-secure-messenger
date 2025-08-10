@@ -7,7 +7,6 @@ import {
   Button,
   Avatar,
   Chip,
-  Grid,
   Card,
   CardContent,
   AppBar,
@@ -128,134 +127,125 @@ const Dashboard: React.FC = () => {
 
       {/* Main Content */}
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Grid container spacing={3}>
-          {/* Welcome Card */}
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 3,
-                background: 'linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%)',
-                border: '1px solid #333',
-              }}
+        {/* Welcome Card */}
+        <Paper
+          sx={{
+            p: 3,
+            mb: 4,
+            background: 'linear-gradient(145deg, #1e1e1e 0%, #2d2d2d 100%)',
+            border: '1px solid #333',
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+            <Avatar
+              src={user?.profilePic}
+              sx={{ width: 64, height: 64 }}
             >
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                <Avatar
-                  src={user?.profilePic}
-                  sx={{ width: 64, height: 64 }}
-                >
-                  {user?.username?.[0]?.toUpperCase()}
-                </Avatar>
-                <Box>
-                  <Typography variant="h4" component="h1" gutterBottom>
-                    Welcome back, {user?.username}! 👋
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Public Key: {user?.publicKey?.substring(0, 20)}...
-                    </Typography>
-                    {user?.isVerified && (
-                      <Chip
-                        icon={<Verified />}
-                        label="Verified"
-                        size="small"
-                        color="primary"
-                      />
-                    )}
-                  </Box>
-                </Box>
-              </Box>
-              
+              {user?.username?.[0]?.toUpperCase()}
+            </Avatar>
+            <Box>
+              <Typography variant="h4" component="h1" gutterBottom>
+                Welcome back, {user?.username}! 👋
+              </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <AccountBalanceWallet color="primary" />
-                <Typography variant="body1">
-                  Balance: {formatBalance(user?.balanceNanos || 0)} DESO
+                <Typography variant="body2" color="text.secondary">
+                  Public Key: {user?.publicKey?.substring(0, 20)}...
                 </Typography>
+                {user?.isVerified && (
+                  <Chip
+                    icon={<Verified />}
+                    label="Verified"
+                    size="small"
+                    color="primary"
+                  />
+                )}
               </Box>
-            </Paper>
-          </Grid>
+            </Box>
+          </Box>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <AccountBalanceWallet color="primary" />
+            <Typography variant="body1">
+              Balance: {formatBalance(user?.balanceNanos || 0)} DESO
+            </Typography>
+          </Box>
+        </Paper>
 
-          {/* Quick Actions */}
-          <Grid item xs={12} md={4}>
-            <Card sx={{ bgcolor: 'background.paper', border: '1px solid #333' }}>
-              <CardContent sx={{ textAlign: 'center' }}>
-                <Message color="primary" sx={{ fontSize: 48, mb: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Start Messaging
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Send secure, encrypted messages to other DeSo users
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => navigate('/chat/new')}
-                >
-                  New Message
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card sx={{ bgcolor: 'background.paper', border: '1px solid #333' }}>
-              <CardContent sx={{ textAlign: 'center' }}>
-                <People color="primary" sx={{ fontSize: 48, mb: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Find Contacts
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Discover and connect with other users on DeSo
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => navigate('/contacts')}
-                >
-                  Browse Users
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <Card sx={{ bgcolor: 'background.paper', border: '1px solid #333' }}>
-              <CardContent sx={{ textAlign: 'center' }}>
-                <Settings color="primary" sx={{ fontSize: 48, mb: 2 }} />
-                <Typography variant="h6" gutterBottom>
-                  Security Settings
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Configure encryption and privacy preferences
-                </Typography>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => navigate('/settings')}
-                >
-                  Manage Settings
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Recent Activity */}
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 3,
-                bgcolor: 'background.paper',
-                border: '1px solid #333',
-              }}
-            >
+        {/* Quick Actions */}
+        <Box sx={{ display: 'flex', gap: 3, mb: 4, flexWrap: 'wrap' }}>
+          <Card sx={{ flex: 1, minWidth: 280, bgcolor: 'background.paper', border: '1px solid #333' }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              <Message color="primary" sx={{ fontSize: 48, mb: 2 }} />
               <Typography variant="h6" gutterBottom>
-                Recent Activity
+                Start Messaging
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                No recent messages. Start a conversation to see your activity here!
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Send secure, encrypted messages to other DeSo users
               </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/chat/new')}
+              >
+                New Message
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card sx={{ flex: 1, minWidth: 280, bgcolor: 'background.paper', border: '1px solid #333' }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              <People color="primary" sx={{ fontSize: 48, mb: 2 }} />
+              <Typography variant="h6" gutterBottom>
+                Find Contacts
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Discover and connect with other users on DeSo
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/contacts')}
+              >
+                Browse Users
+              </Button>
+            </CardContent>
+          </Card>
+
+          <Card sx={{ flex: 1, minWidth: 280, bgcolor: 'background.paper', border: '1px solid #333' }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+              <Settings color="primary" sx={{ fontSize: 48, mb: 2 }} />
+              <Typography variant="h6" gutterBottom>
+                Security Settings
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                Configure encryption and privacy preferences
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/settings')}
+              >
+                Manage Settings
+              </Button>
+            </CardContent>
+          </Card>
+        </Box>
+
+        {/* Recent Activity */}
+        <Paper
+          sx={{
+            p: 3,
+            bgcolor: 'background.paper',
+            border: '1px solid #333',
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Recent Activity
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            No recent messages. Start a conversation to see your activity here!
+          </Typography>
+        </Paper>
       </Container>
     </Box>
   );

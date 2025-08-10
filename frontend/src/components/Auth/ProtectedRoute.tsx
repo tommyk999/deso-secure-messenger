@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { type ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContext';

@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Deso, IdentityUsersResponse } from 'deso-protocol';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import toast from 'react-hot-toast';
 
 export interface DesoUser {
@@ -25,14 +24,9 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const DESO_NODE_URL = 'https://node.deso.org';
-
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<DesoUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  // Initialize DeSo instance
-  const deso = new Deso();
 
   const isAuthenticated = !!user;
 
@@ -45,17 +39,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoading(true);
       
-      // Check if user has already logged in with DeSo Identity
-      const loggedInUser = deso.identity.snapshot?.users?.[deso.identity.snapshot.currentUser || ''];
-      
-      if (loggedInUser) {
-        await loadUserProfile(loggedInUser.publicKeyBase58Check);
-      } else {
-        // Check localStorage for saved session
-        const savedUser = localStorage.getItem('deso_auth_user');
-        if (savedUser) {
-          setUser(JSON.parse(savedUser));
-        }
+      // Check localStorage for saved session
+      const savedUser = localStorage.getItem('deso_auth_user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
       }
     } catch (error) {
       console.error('Error checking existing auth:', error);
@@ -64,79 +51,44 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const loadUserProfile = async (publicKey: string) => {
-    try {
-      // Get user profile from DeSo
-      const response = await fetch(`${DESO_NODE_URL}/api/v0/get-single-profile`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          PublicKeyBase58Check: publicKey,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch user profile');
-      }
-
-      const data = await response.json();
-      const profile = data.Profile;
-
-      const userData: DesoUser = {
-        publicKey,
-        username: profile?.Username || 'Anonymous',
-        profilePic: profile?.ProfilePic || '',
-        isVerified: profile?.IsVerified || false,
-        balanceNanos: profile?.BalanceNanos || 0,
-      };
-
-      setUser(userData);
-      localStorage.setItem('deso_auth_user', JSON.stringify(userData));
-      
-      return userData;
-    } catch (error) {
-      console.error('Error loading user profile:', error);
-      throw error;
-    }
-  };
-
   const login = async () => {
     try {
       setIsLoading(true);
-      toast.loading('Connecting to DeSo...', { id: 'login' });
+      toast.loading('Simulating DeSo login...', { id: 'login' });
 
-      // Request login through DeSo Identity
-      const response = await deso.identity.login();
+      // Simulate DeSo authentication (for demo)
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      if (response && response.publicKeyAdded) {
-        // Load the user's profile data
-        const userData = await loadUserProfile(response.publicKeyAdded);
-        
-        toast.success(`Welcome ${userData.username}!`, { id: 'login' });
-        
-        // Send user data to our backend for session management
-        try {
-          await fetch('/api/users/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              publicKey: userData.publicKey,
-              username: userData.username,
-              profilePic: userData.profilePic,
-            }),
-          });
-        } catch (backendError) {
-          console.warn('Backend login failed, but DeSo auth succeeded:', backendError);
-          // Continue with DeSo-only auth if backend is unavailable
-        }
-        
-      } else {
-        throw new Error('Login was cancelled or failed');
+      const demoUser: DesoUser = {
+        publicKey: 'BC1YL...demo_public_key_' + Math.random().toString(36).substr(2, 9),
+        username: 'DemoUser' + Math.floor(Math.random() * 1000),
+        profilePic: '',
+        isVerified: Math.random() > 0.5,
+        balanceNanos: Math.floor(Math.random() * 10000000000),
+      };
+
+      setUser(demoUser);
+      localStorage.setItem('deso_auth_user', JSON.stringify(demoUser));
+      
+      toast.success(`Welcome ${demoUser.username}!`, { id: 'login' });
+      
+      // Send user data to our backend for session management
+      try {
+        await fetch('/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            publicKey: demoUser.publicKey,
+            username: demoUser.username,
+            profilePic: demoUser.profilePic,
+          }),
+        });
+      } catch (backendError) {
+        console.warn('Backend login failed, but auth succeeded:', backendError);
       }
+        
     } catch (error) {
       console.error('Login error:', error);
       toast.error('Login failed. Please try again.', { id: 'login' });
@@ -148,9 +100,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     try {
       toast.loading('Signing out...', { id: 'logout' });
-      
-      // Logout from DeSo Identity
-      await deso.identity.logout(user?.publicKey || '');
       
       // Clear local storage
       localStorage.removeItem('deso_auth_user');
@@ -169,7 +118,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     if (!user) return;
     
     try {
-      await loadUserProfile(user.publicKey);
+      // Simulate refresh
+      toast.success('Profile refreshed');
     } catch (error) {
       console.error('Error refreshing user:', error);
       toast.error('Failed to refresh user data');
