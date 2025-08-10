@@ -1,27 +1,17 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { CssBaseline, Container, Box, Typography, Button } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { CryptoProvider } from './contexts/CryptoContext';
-import { SocketProvider } from './contexts/SocketContext';
-import Login from './components/Auth/Login';
-import Dashboard from './components/Dashboard/Dashboard';
-import Chat from './components/Chat/Chat';
-import Settings from './components/Settings/Settings';
-import { ProtectedRoute } from './components/Auth/ProtectedRoute';
-import LoadingScreen from './components/Common/LoadingScreen';
-
-// Create query client for React Query
+// Create query client for TanStack Query
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 3,
       staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes (was cacheTime)
     },
   },
 });
@@ -59,21 +49,6 @@ const darkTheme = createTheme({
     },
   },
   components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#1e1e1e',
-          borderBottom: '1px solid #333',
-        },
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundImage: 'none',
-        },
-      },
-    },
     MuiButton: {
       styleOverrides: {
         root: {
@@ -82,59 +57,90 @@ const darkTheme = createTheme({
         },
       },
     },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: 8,
-          },
-        },
-      },
-    },
   },
 });
 
-function AppContent() {
-  const { user, loading } = useAuth();
+// Temporary landing page component
+function LandingPage() {
+  const [backendStatus, setBackendStatus] = React.useState<string>('Checking...');
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
+  React.useEffect(() => {
+    // Check if backend is running
+    fetch('http://localhost:3001/health')
+      .then(res => res.json())
+      .then(data => {
+        setBackendStatus(`Backend is running! Status: ${data.status}`);
+      })
+      .catch(() => {
+        setBackendStatus('Backend is not running. Please start the backend server.');
+      });
+  }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route 
-          path="/login" 
-          element={user ? <Navigate to="/" replace /> : <Login />} 
-        />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/chat/:conversationId"
-          element={
-            <ProtectedRoute>
-              <Chat />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+    <Container maxWidth="md">
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="h2" component="h1" gutterBottom color="primary">
+          🚀 DeSo Secure Messenger
+        </Typography>
+        
+        <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 4 }}>
+          Modern React + Vite Frontend
+        </Typography>
+
+        <Typography variant="body1" sx={{ mb: 3, color: 'text.secondary' }}>
+          {backendStatus}
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={() => window.open('http://localhost:3001/health', '_blank')}
+          >
+            Test Backend API
+          </Button>
+          
+          <Button 
+            variant="outlined" 
+            color="primary"
+            onClick={() => window.open('https://github.com/tommyk999/deso-secure-messenger', '_blank')}
+          >
+            View on GitHub
+          </Button>
+        </Box>
+
+        <Box sx={{ textAlign: 'left', maxWidth: '600px' }}>
+          <Typography variant="h6" gutterBottom>✅ What's Working:</Typography>
+          <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
+            <li>✅ Modern React 18 + TypeScript + Vite</li>
+            <li>✅ Material-UI (MUI) with dark theme</li>
+            <li>✅ Node.js Backend API on port 3001</li>
+            <li>✅ Git repository with GitHub integration</li>
+            <li>✅ Zero dependency vulnerabilities</li>
+            <li>✅ Hot Module Replacement (HMR)</li>
+            <li>✅ Fast build times with Vite</li>
+          </Typography>
+
+          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>🚧 Next Steps:</Typography>
+          <Typography variant="body2" component="ul" sx={{ pl: 2 }}>
+            <li>🔜 Implement authentication components</li>
+            <li>🔜 Add chat interface</li>
+            <li>🔜 Integrate with DeSo blockchain</li>
+            <li>🔜 Add end-to-end encryption</li>
+            <li>🔜 WebSocket real-time messaging</li>
+          </Typography>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 
@@ -143,36 +149,34 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <AuthProvider>
-          <CryptoProvider>
-            <SocketProvider>
-              <AppContent />
-              <Toaster
-                position="bottom-right"
-                toastOptions={{
-                  duration: 4000,
-                  style: {
-                    background: '#1e1e1e',
-                    color: '#fff',
-                    border: '1px solid #333',
-                  },
-                  success: {
-                    iconTheme: {
-                      primary: '#00e676',
-                      secondary: '#1e1e1e',
-                    },
-                  },
-                  error: {
-                    iconTheme: {
-                      primary: '#ff4081',
-                      secondary: '#1e1e1e',
-                    },
-                  },
-                }}
-              />
-            </SocketProvider>
-          </CryptoProvider>
-        </AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="*" element={<LandingPage />} />
+          </Routes>
+        </Router>
+        <Toaster
+          position="bottom-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#1e1e1e',
+              color: '#fff',
+              border: '1px solid #333',
+            },
+            success: {
+              iconTheme: {
+                primary: '#00e676',
+                secondary: '#1e1e1e',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#ff4081',
+                secondary: '#1e1e1e',
+              },
+            },
+          }}
+        />
       </ThemeProvider>
     </QueryClientProvider>
   );

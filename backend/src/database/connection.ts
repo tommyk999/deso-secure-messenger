@@ -9,8 +9,6 @@ export async function connectDatabase(): Promise<void> {
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
-      bufferCommands: false,
-      bufferMaxEntries: 0,
     });
 
     console.log('📊 Connected to MongoDB');
@@ -33,7 +31,11 @@ export async function connectDatabase(): Promise<void> {
 
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
-    throw error;
+    console.log('⚠️  Running in development mode without database');
+    // Don't throw error in development - allow server to start without DB
+    if (process.env.NODE_ENV === 'production') {
+      throw error;
+    }
   }
 }
 
