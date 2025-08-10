@@ -3,39 +3,97 @@ import { asyncHandler } from '../middleware/errorHandler';
 
 const router = express.Router();
 
-// POST /api/users/register - Register a new user
-router.post('/register', asyncHandler(async (req, res) => {
-  // TODO: Implement user registration
-  res.json({
-    success: true,
-    message: 'User registration endpoint working'
-  });
-}));
+// Store for demo purposes (in production, use a database)
+const userSessions = new Map<string, any>();
 
-// POST /api/users/login - User login
+// POST /api/users/login - DeSo user login
 router.post('/login', asyncHandler(async (req, res) => {
-  // TODO: Implement user login
+  const { publicKey, username, profilePic } = req.body;
+
+  if (!publicKey) {
+    return res.status(400).json({
+      success: false,
+      message: 'Public key is required'
+    });
+  }
+
+  // Store user session (in production, use proper session management)
+  const userSession = {
+    publicKey,
+    username: username || 'Anonymous',
+    profilePic: profilePic || '',
+    loginTime: new Date().toISOString(),
+    lastActivity: new Date().toISOString(),
+  };
+
+  userSessions.set(publicKey, userSession);
+
+  console.log(`✅ DeSo user logged in: ${username} (${publicKey.substring(0, 20)}...)`);
+
   res.json({
     success: true,
-    message: 'User login endpoint working'
+    message: 'Successfully logged in with DeSo',
+    user: {
+      publicKey,
+      username: userSession.username,
+      profilePic: userSession.profilePic,
+    }
   });
 }));
 
 // GET /api/users/profile - Get user profile
-router.get('/profile', asyncHandler(async (req, res) => {
-  // TODO: Implement get user profile
+router.get('/profile/:publicKey?', asyncHandler(async (req, res) => {
+  const { publicKey } = req.params;
+  
+  if (!publicKey) {
+    return res.status(400).json({
+      success: false,
+      message: 'Public key is required'
+    });
+  }
+
+  const userSession = userSessions.get(publicKey);
+  
+  if (!userSession) {
+    return res.status(404).json({
+      success: false,
+      message: 'User session not found'
+    });
+  }
+
   res.json({
     success: true,
-    message: 'User profile endpoint working'
+    user: {
+      publicKey: userSession.publicKey,
+      username: userSession.username,
+      profilePic: userSession.profilePic,
+      loginTime: userSession.loginTime,
+      lastActivity: userSession.lastActivity,
+    }
   });
 }));
 
-// PUT /api/users/profile - Update user profile
-router.put('/profile', asyncHandler(async (req, res) => {
-  // TODO: Implement update user profile
+// POST /api/users/logout - User logout
+router.post('/logout', asyncHandler(async (req, res) => {
+  const { publicKey } = req.body;
+  
+  if (publicKey && userSessions.has(publicKey)) {
+    userSessions.delete(publicKey);
+    console.log(`🚪 User logged out: ${publicKey.substring(0, 20)}...`);
+  }
+
   res.json({
     success: true,
-    message: 'User profile update endpoint working'
+    message: 'Successfully logged out'
+  });
+}));
+
+// GET /api/users/active - Get active users count
+router.get('/active', asyncHandler(async (req, res) => {
+  res.json({
+    success: true,
+    activeUsers: userSessions.size,
+    message: `${userSessions.size} active users`
   });
 }));
 
